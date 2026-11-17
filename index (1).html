@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>7AMED</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f2f5fb;--card:#fff;--ink:#14213d;--mut:#5b6785;--ac:#2f5bea;--acs:#e3eaff;--hi:#ffc928;--ok:#17a05d;--oks:#dcf5e8;--no:#d6403a;--nos:#fde4e2;--ln:#d9e0ef;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1424;--card:#172038;--ink:#e8edfb;--mut:#9aa6c6;--ac:#7c9cff;--acs:#22305a;--ok:#4cd694;--oks:#123626;--no:#ff7a73;--nos:#3d1b1b;--ln:#2a3556}}
+:root[data-theme="dark"]{--bg:#0e1424;--card:#172038;--ink:#e8edfb;--mut:#9aa6c6;--ac:#7c9cff;--acs:#22305a;--ok:#4cd694;--oks:#123626;--no:#ff7a73;--nos:#3d1b1b;--ln:#2a3556}
+html{scroll-padding-top:70px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Cairo,"Segoe UI",Tahoma,sans-serif;line-height:1.75;font-size:16px}
+header{padding:28px 18px 10px;max-width:960px;margin:auto;display:flex;gap:12px;justify-content:space-between;align-items:flex-start}
+h1{margin:0;font-size:clamp(24px,5vw,38px);font-weight:800;letter-spacing:-.5px}
+header p{margin:4px 0 0;color:var(--mut)}
+#th{border:1px solid var(--ln);background:var(--card);color:var(--ink);border-radius:10px;padding:6px 12px;font:inherit;cursor:pointer}
+nav{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--ln);padding:8px 10px;overflow-x:auto;white-space:nowrap}
+nav button{font:inherit;font-weight:600;border:0;background:transparent;color:var(--mut);padding:7px 14px;border-radius:999px;cursor:pointer}
+nav button.on{background:var(--ac);color:#fff}
+nav button:focus-visible,#th:focus-visible,summary:focus-visible,.opt:focus-visible,.fc:focus-visible{outline:3px solid var(--hi);outline-offset:2px}
+main{max-width:960px;margin:auto;padding:16px 16px 60px}
+section{display:none}section.on{display:block}
+h2{font-size:24px;margin:8px 0 14px}
+h3{font-size:18px;margin:18px 0 8px}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:14px;padding:14px 18px;margin:12px 0}
+details{background:var(--card);border:1px solid var(--ln);border-radius:14px;margin:10px 0;padding:0 18px}
+summary{cursor:pointer;font-weight:700;padding:13px 0;list-style:none;display:flex;justify-content:space-between}
+summary::after{content:"+";color:var(--ac);font-size:22px;line-height:1}
+details[open] summary::after{content:"–"}
+details>div{padding-bottom:14px}
+.tip{border-right:5px solid var(--hi);background:var(--card);padding:10px 14px;border-radius:10px;margin:10px 0}
+.key{border-right:5px solid var(--ac);background:var(--acs);padding:10px 14px;border-radius:10px;margin:10px 0}
+table{border-collapse:collapse;width:100%;margin:8px 0;font-size:15px}
+th,td{border:1px solid var(--ln);padding:6px 10px;text-align:center}
+th{background:var(--acs)}
+.wrap{overflow-x:auto}
+code,.m{font-family:ui-monospace,Menlo,Consolas,monospace;direction:ltr;unicode-bidi:isolate;background:var(--acs);padding:1px 6px;border-radius:6px;font-size:.92em}
+.en{direction:ltr;text-align:left;unicode-bidi:isolate}
+ul{padding-inline-start:22px;margin:6px 0}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin:10px 0}
+label{font-size:13px;color:var(--mut);display:block}
+input{font:inherit;width:78px;padding:6px 8px;border:1px solid var(--ln);border-radius:8px;background:var(--bg);color:var(--ink);direction:ltr}
+.btn{font:inherit;font-weight:700;background:var(--ac);color:#fff;border:0;border-radius:10px;padding:8px 18px;cursor:pointer}
+.btn.g{background:var(--acs);color:var(--ink)}
+canvas{max-width:100%;border:1px solid var(--ln);border-radius:10px;background:var(--card)}
+.q{background:var(--card);border:1px solid var(--ln);border-radius:14px;padding:14px 18px;margin:12px 0}
+.q b.t{display:block;margin-bottom:8px;direction:ltr;text-align:left}
+.opts{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));direction:ltr}
+.opt{font:inherit;text-align:left;background:var(--bg);color:var(--ink);border:1px solid var(--ln);border-radius:10px;padding:8px 12px;cursor:pointer}
+.opt.ok{background:var(--oks);border-color:var(--ok)}.opt.no{background:var(--nos);border-color:var(--no)}
+.why{display:none;margin-top:8px;color:var(--mut);font-size:14.5px}
+.q.done .why{display:block}
+.score{position:sticky;top:52px;background:var(--ac);color:#fff;padding:6px 14px;border-radius:10px;font-weight:700;display:inline-block;z-index:3}
+.fcs{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.fc{background:var(--card);border:1px solid var(--ln);border-radius:14px;padding:16px;min-height:130px;cursor:pointer;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:600;direction:ltr}
+.fc.flip{background:var(--acs);font-weight:400;text-align:left;font-size:14.5px}
+.pill{display:inline-block;background:var(--hi);color:#14213d;font-weight:700;border-radius:999px;padding:0 10px;font-size:13px}
+@media (prefers-reduced-motion:no-preference){section.on{animation:f .25s}@keyframes f{from{opacity:.4}}}
+input.ok,textarea.ok{border-color:var(--ok);background:var(--oks)}input.no{border-color:var(--no);background:var(--nos)}
+textarea{width:100%;min-height:64px;font:inherit;padding:8px;border:1px solid var(--ln);border-radius:10px;background:var(--bg);color:var(--ink);direction:ltr}
+.ans{display:none;margin-top:6px;padding:8px 12px;background:var(--oks);border-radius:10px;direction:ltr;text-align:left}.ans.show{display:block}
+.pg{display:grid;grid-template-columns:28px repeat(7,38px);gap:3px;direction:ltr;margin:10px 0}
+.pg span{font-size:12px;color:var(--mut);text-align:center;line-height:38px}
+.pg button{width:38px;height:38px;border:1px solid var(--ln);border-radius:6px;background:var(--bg);cursor:pointer}
+.pg button.on{background:var(--ac)}.pg button.hit{outline:3px solid var(--ok)}.pg button.miss{outline:3px solid var(--no)}
+.chs button{font:inherit;font-weight:600;border:1px solid var(--ln);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer}.chs button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.msg{font-weight:700;margin:6px 0}
+
+.tbar{position:sticky;top:52px;z-index:4;background:var(--card);border:1px solid var(--ln);border-radius:14px;padding:10px 14px;margin:10px 0}
+.tbar .tl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+#tm{font-size:28px;font-weight:800;font-family:ui-monospace,Menlo,Consolas,monospace;direction:ltr}
+.prog{height:8px;background:var(--acs);border-radius:99px;overflow:hidden;margin-top:8px}
+#tfill{height:100%;width:100%;background:var(--ac);transition:width 1s linear,background .3s}
+.tbar.warn #tfill{background:var(--hi)}.tbar.danger #tfill{background:var(--no)}.tbar.danger #tm{color:var(--no)}
+.qzc{border-top:4px solid var(--ac)}
+.sub{color:var(--mut);font-size:14px;margin:0}
+</style></head><body>
+<header><div><h1>مراجعة الميد: Computer Graphics</h1><p>7AMED • شرح مفصل لكل محاضرة + كويز تحته • ملخص قبل الامتحان • ميد 2026 تحله بنفسك</p></div><button id="th" aria-label="تبديل الوضع">🌓</button></header>
+<nav id="nav"></nav>
+<main>
+
+<section id="s0" class="on">
+<h2>الملخص قبل الامتحان</h2>
+<div class="tip">⏱️ ده ملخص ليلة الامتحان. للمذاكرة بالتفصيل افتح تاب كل محاضرة (محاضرة 1 → 4). الميد 2026 كان: <b>دايرة r=8 (6)</b> + <b>4 تعريفات (4)</b> + <b>10 MCQ (5)</b> = 15 درجة.</div>
+
+<div class="card"><h3>محاضرة 1 — Introduction</h3><ul>
+<li><b>4 تطبيقات:</b> Display of information • Design (CAD) • Simulation &amp; animation • User interfaces.</li>
+<li><b>6 عناصر للنظام:</b> Input devices, CPU, GPU, Memory, Frame buffer, Output devices.</li>
+<li>Raster = pixels في الـ frame buffer. Depth = bits/pixel. الألوان = <code>2^bits</code>. الحجم = <code>w×h×bits÷8</code>.</li>
+<li>الصورة = Object + Viewer + Light (350–780 nm). Pinhole = صورة مقلوبة. Rods = ضوء قليل، Cones = ألوان.</li>
+<li>الكاميرا: Position, Orientation, Focal length, Film plane. الـ API: Objects, Viewer, Lights, Materials.</li></ul></div>
+
+<div class="card"><h3>محاضرة 2 — Basic Concepts</h3><ul>
+<li><b>7 مجموعات دوال:</b> Primitive (what) • Attribute (how) • Viewing • Transformation • Input • Control • Query.</li>
+<li>Primitives: geometric (points, lines, polygons, curves) و raster (pixels). Triangle هو الأفضل (simple, flat, convex).</li>
+<li><b>Triangulation</b> = تقسيم polygon لمثلثات. الكورة بتتقرب بـ triangles/quads.</li>
+<li>Text: Stroke (خطوط) / Raster (<b>bit blocks</b> 0/1).</li>
+<li>RGB additive (شاشة، الكل = أبيض) • CMY subtractive (طباعة، الكل = أسود). 24-bit = 8 bits لكل لون. Alpha: 0 شفاف، 1 معتم.</li></ul></div>
+
+<div class="card"><h3>محاضرة 3 — Lines (Bresenham)</h3><ul>
+<li><code>y=mx+b</code> • <code>m=Δy/Δx</code> • <code>b=y1−m·x1</code>. Jaggies بسبب rounding، وبتبان في low resolution.</li>
+<li>Bresenham: integer فقط، بيختار بين <code>(x+1,y)</code> و <code>(x+1,y+1)</code>.</li>
+<li><code>p0=2Δy−Δx</code> • p&lt;0: <code>p+=2Δy</code> • p≥0: <code>p+=2Δy−2Δx</code> (و y بتزيد).</li>
+<li>m&gt;1 بدّل x/y. عدد الخطوات = Δx.</li></ul></div>
+
+<div class="card"><h3>محاضرة 4 — Circle</h3><ul>
+<li>8-way symmetry: احسب octant (x=0→x=y) وmirror لـ 7 نقاط. المركز مش (0,0): أضف xc, yc.</li>
+<li><code>p0=1−r</code> • البداية <code>(0,r)</code> • الوقف لما x≥y.</li>
+<li>p&lt;0: <code>(x+1,y)</code>, <code>p+=2x_new+1</code> • p≥0: <code>(x+1,y−1)</code>, <code>p+=2x_new+1−2y_new</code>.</li>
+<li>r=10: (0,10) (1,10) (2,10) (3,10) (4,9) (5,9) (6,8) (7,7) • r=8: (0,8) (1,8) (2,8) (3,7) (4,7) (5,6) • r=5: (0,5) (1,5) (2,5) (3,4).</li></ul></div>
+
+<div class="wrap"><table class="en"><tr><th>Topic</th><th>Formula</th></tr>
+<tr><td>Colors</td><td class="m">2^bits</td></tr><tr><td>Frame buffer</td><td class="m">w × h × bits ÷ 8</td></tr>
+<tr><td>Line p0 / p&lt;0 / p≥0</td><td class="m">2Δy−Δx ; +2Δy ; +2Δy−2Δx</td></tr>
+<tr><td>Circle p0 / p&lt;0 / p≥0</td><td class="m">1−r ; +2x+1 ; +2x+1−2y</td></tr></table></div>
+<div class="tip"><b>تكتيكات الحل:</b> اكتب الثوابت أول حاجة، املا الجدول صف صف، آخر نقطة في الخط = نقطة النهاية، والدايرة وقف عند x≥y. أخطاء شائعة: Bresenham مش floating-point • الـ jaggies في low resolution • octant مش quadrant • RGB additive.</div>
+<div class="card qzc" id="qz0"></div>
+</section>
+
+<section id="c1">
+<h2>المحاضرة 1 — Introduction to Computer Graphics</h2>
+<p class="sub">افتح كل جزء واقرأه، وفي الآخر اختبر نفسك.</p>
+<details open><summary>1.1 ما هو Computer Graphics؟ وتطبيقاته</summary><div>
+<p>هو كل ما يخص <b>إنتاج الصور باستخدام الكمبيوتر</b>. بدأ من حوالي 50 سنة بعرض بضعة خطوط على شاشة CRT.</p>
+<div class="wrap"><table><tr><th>التطبيق</th><th>المعنى</th><th>أمثلة</th></tr>
+<tr><td>Display of Information</td><td>تحويل البيانات لصور علشان نفهمها</td><td>Scientific visualization: fluid flow, molecular biology</td></tr>
+<tr><td>Design</td><td>عملية تكرارية: design → test → improve</td><td>CAD: architecture, mechanical parts, VLSI circuits</td></tr>
+<tr><td>Simulation &amp; Animation</td><td>صور realistic في الوقت الحقيقي</td><td>Flight/driving simulators (أرخص وأأمن)، games</td></tr>
+<tr><td>User Interfaces</td><td>Windows, Icons, Menus, Pointer</td><td>Windows, macOS, web browsers</td></tr></table></div>
+<div class="key"><b>Overdetermined vs Underdetermined:</b> مسائل التصميم نوعين. <b>Overdetermined</b> = شروط كتير ومفيش حل يحققها كلها. <b>Underdetermined</b> = فيه حلول كتير.</div>
+<p><b>أنواع الأيقونات في الـ GUI:</b> program icon, object icon, menu icon, check-box icon, spinner icon.</p></div></details>
+
+<details><summary>1.2 الـ Graphics System: العناصر الستة</summary><div>
+<ul><li><b>Input devices</b> (mouse, keyboard, joystick, trackball, data tablet)</li><li><b>CPU</b></li><li><b>GPU</b></li><li><b>Memory</b></li><li><b>Frame buffer</b></li><li><b>Output devices</b> (CRT / monitor)</li></ul>
+<p>في النظام البسيط الـ CPU بيعمل المعالجة العادية والـ graphics معًا. شغل الـ graphics بالظبط: <b>ناخد الـ primitives ونحط قيم الـ pixels في الـ frame buffer</b>. الـ GPU بيعمل ده أسرع.</p>
+<div class="tip">سؤال متوقع: List the six major elements of a graphics system. (الإجابة: العناصر الستة فوق.)</div></div></details>
+
+<details><summary>1.3 الـ Pixels والـ Frame Buffer (فيه حسابات!)</summary><div>
+<ul><li>الصورة = <b>raster</b> = array of picture elements (pixels) متخزنة في الـ <b>frame buffer</b>.</li>
+<li>الـ frame buffer جزء من الميموري بيخزن قيمة كل pixel.</li>
+<li><b>Depth (precision)</b> = عدد البتات لكل pixel.</li></ul>
+<div class="key">عدد الألوان = <code>2^(bits per pixel)</code> • حجم الـ buffer = <code>width × height × bits ÷ 8</code> (bytes)</div>
+<div class="wrap"><table><tr><th>Bits/pixel</th><th>1</th><th>4</th><th>8</th><th>15</th><th>16</th><th>24</th></tr><tr><td>Colors</td><td>2</td><td>16</td><td>256</td><td>32,768</td><td>65,536</td><td>16,777,216</td></tr></table></div>
+<p class="tip">الشريحة كاتبة 16,772,216 للـ 24-bit وده غلط مطبعي، الصح 2²⁴ = 16,777,216.</p>
+<p><b>مثال محلول:</b> شاشة 1280×1024 و 24 bit/pixel. عدد البيكسلات = 1,310,720. الحجم = 1,310,720 × 3 bytes = 3,932,160 bytes = <b>3.75 MB</b>.</p>
+<p><b>مثال تاني:</b> 1024×768 و 8 bit = 786,432 byte = <b>768 KB</b>.</p></div></details>
+
+<details><summary>1.4 أجهزة الإدخال والإخراج (CRT)</summary><div>
+<ul><li><b>CRT:</b> الإلكترونات بتضرب طبقة الـ phosphor فتطلع ضوء.</li>
+<li>الـ <b>Digital-to-Analog converters</b> بتحول خرج الكمبيوتر لجهود كهربية على لوحي الانحراف x و y (deflection plates).</li>
+<li><b>Input devices:</b> mouse, joystick, trackball, data tablet. وظيفتها تحديد مكان على الشاشة.</li></ul></div></details>
+
+<details><summary>1.5 تكوين الصورة: Object / Viewer / Light</summary><div>
+<ul><li><b>Object:</b> primitives هندسية (points, lines, polygons) في الفراغ.</li>
+<li><b>Viewer:</b> هو اللي بيكوّن الصورة. كل viewer بيشوف صورة مختلفة.</li>
+<li><b>Light:</b> من غيره كله ضلمة. خصائص السطح بتأثر على اللون.</li>
+<li>الضوء المرئي: أطوال موجية <b>350–780 nm</b>.</li></ul>
+<h3>Pinhole camera</h3>
+<p>صندوق فيه ثقب صغير في جنب، والفيلم في الجنب المقابل على مسافة d. بيطلع <b>صورة مقلوبة</b>.</p>
+<p><b>مواصفات الكاميرا الأربعة:</b> Position, Orientation, Focal length, Film plane.</p>
+<h3>العين البشرية</h3>
+<p>الضوء بيدخل من <b>cornea + lens</b>، الـ <b>iris</b> بيتحكم في كمية الضوء، والصورة بتتكون على الـ <b>retina</b>. <b>Rods</b> للضوء القليل (scotopic). <b>Cones</b> للضوء العالي والألوان (photopic).</p>
+<div class="tip">سؤال متوقع: What are the four camera specifications? What do rods and cones do?</div></div></details>
+
+<details><summary>1.6 الـ API (واجهة المبرمج)</summary><div>
+<ul><li>المستخدم ممكن يرسم من غير برمجة (paint program: menus وicons).</li>
+<li>المبرمج بيستخدم دوال من graphics library = <b>API (Application Programming Interface)</b>.</li>
+<li>الـ API ثلاثي الأبعاد (synthetic-camera model) لازم يحدد: <b>Objects, a Viewer, Light sources, Material properties</b>.</li>
+<li>الـ API ممكن يحتوي مئات الدوال.</li></ul></div></details>
+<div class="card qzc" id="qz1"></div>
+</section>
+
+<section id="c2">
+<h2>المحاضرة 2 — Basic Concepts</h2>
+<p class="sub">دوال الجرافيكس، الـ primitives، الـ attributes، والألوان.</p>
+<details open><summary>2.1 مجموعات دوال الجرافيكس (7)</summary><div>
+<p>الـ graphics system زي <b>black box</b>: المدخلات = استدعاءات دوال من البرنامج، قياسات من أجهزة الإدخال، ورسائل من نظام التشغيل. المخرج = رسومات على أجهزة الإخراج.</p>
+<div class="wrap"><table><tr><th>#</th><th>المجموعة</th><th>وظيفتها</th></tr>
+<tr><td>1</td><td>Primitive</td><td><b>الـ what</b>: points, line segments, polygons, pixels, text, curves</td></tr>
+<tr><td>2</td><td>Attribute</td><td><b>الـ how</b>: color, line pattern, fill pattern, typeface</td></tr>
+<tr><td>3</td><td>Viewing</td><td>تحديد الـ views المختلفة</td></tr>
+<tr><td>4</td><td>Transformation</td><td>Rotation, translation, scaling</td></tr>
+<tr><td>5</td><td>Input</td><td>keyboards, mice, data tablets</td></tr>
+<tr><td>6</td><td>Control</td><td>التواصل مع window system، تشغيل البرنامج، معالجة الأخطاء</td></tr>
+<tr><td>7</td><td>Query</td><td>جلب معلومات من الـ API: camera parameters, frame-buffer values</td></tr></table></div></div></details>
+
+<details><summary>2.2 الـ Primitives: Points, Lines, Polygons</summary><div>
+<ul><li><b>نوعين:</b> geometric primitives (points, segments, polygons, curves, surfaces) و image/raster primitives (arrays of pixels).</li>
+<li><b>Point:</b> pixel واحد أو مجموعة صغيرة. <b>Line segment:</b> جزء محدود من خط بين vertexين، بيستخدم في الجرافات وحواف الـ polygons.</li>
+<li>لو عندك vertices p0…p7 ممكن تعرض: نقط منفصلة، segments منفصلة (p0p1, p2p3…)، <b>polyline</b> متصل مفتوح، أو polyline مقفول (حواف polygon).</li></ul>
+<h3>Polygons</h3>
+<ul><li>بتتعرض بسرعة وبتقرّب أي سطح. ممكن تتعرض: حواف بس، أو الداخل مليان بلون/pattern، أو الاتنين.</li>
+<li><b>Simple polygon:</b> الحواف مش بتتقاطع. <b>Non-simple:</b> الحواف بتتقاطع (زي نجمة pentagram).</li></ul></div></details>
+
+<details><summary>2.3 المثلث (Triangle) و Triangulation</summary><div>
+<div class="key"><b>المثلث هو أفضل primitive:</b> دايمًا simple, flat, convex، فسهل وسريع في الـ rendering. بيتعرض كـ vertices أو edges أو مليان (الافتراضي).</div>
+<ul><li><b>Triangulation:</b> من قائمة vertices نولّد مثلثات متوافقة مع الـ polygon.</li>
+<li>الـ polygon الـ convex ممكن يتقسم recursively من v0: (v0v1v2)، (v0v2v3)، …</li>
+<li>الـ polygon الواحد ممكن يتقسم بأكتر من طريقة.</li>
+<li>الكورة (sphere) بتتقرّب بمثلثات أو <b>quadrilaterals (quads)</b>: patches صغيرة كتير.</li></ul>
+<div class="tip">تعريف جاهز (جه في الميد): Triangulation is the process of dividing a polygon into a set of triangles using its vertices.</div></div></details>
+
+<details><summary>2.4 النص (Text) والأشكال المنحنية</summary><div>
+<div class="wrap"><table><tr><th></th><th>Stroke text</th><th>Raster text</th></tr>
+<tr><td>مبني من</td><td>vertices لخطوط/منحنيات بتحدد شكل الحرف، ممكن يتملى لو مقفول</td><td><b>Bit blocks</b>: مستطيلات من 0 و 1 لكل حرف</td></tr>
+<tr><td>السلوك</td><td>زي أي geometric object، بيتكبر بسلاسة</td><td>بسيط وسريع، بيتحط في الـ frame buffer بـ bit-block transfer. التكبير بالتكرار بيظهر الـ blocks</td></tr></table></div>
+<p><b>الأشكال المنحنية:</b> إما (1) نقرّبها بـ primitives متاحة، أو (2) نستخدم المعادلة الرياضية ونبني لها دوال.</p>
+<p class="tip">في الميد: “Characters are defined as rectangles of bits called ____” → <b>Bit blocks</b>.</p></div></details>
+
+<details><summary>2.5 الـ Attributes</summary><div>
+<p>خصائص بتوصف <b>إزاي الـ object بيتعرض</b>، وبتعتمد على نوعه:</p>
+<ul><li><b>Line:</b> color, thickness, solid أو dashed.</li><li><b>Polygon:</b> solid color, gradient, pattern، أو outline بس.</li></ul>
+<div class="key">Primitives = الـ what • Attributes = الـ how</div></div></details>
+
+<details><summary>2.6 الألوان (Color)</summary><div>
+<ul><li>اللون = دالة C(λ) على الأطوال الموجية ≈ 350–780 nm.</li>
+<li>العين فيها <b>3 أنواع cones</b> → الشاشة محتاجة 3 primary colors بس (tri-stimulus values).</li></ul>
+<div class="wrap"><table><tr><th></th><th>Additive</th><th>Subtractive</th></tr>
+<tr><td>Primaries</td><td>Red, Green, Blue</td><td>Cyan, Magenta, Yellow</td></tr><tr><td>بيُستخدم في</td><td>CRT / monitors (الضوء بيجمع)</td><td>Printers (الحبر بيمتص الضوء)</td></tr>
+<tr><td>الكل مع بعض</td><td>أبيض</td><td>أسود</td></tr>
+<tr><td>الخلط</td><td>R+G=Yellow • G+B=Cyan • R+B=Magenta</td><td>C+M=Blue • C+Y=Green • M+Y=Red</td></tr></table></div>
+<ul><li><b>Color solid (RGB cube):</b> تمثيل 3D لموديل الألوان، نظير الـ color wheel الـ 2D. الأركان: Black (0,0,0)، White (1,1,1)، R, G, B, C, M, Y. القطر من Black لـ White = درجات الرمادي.</li>
+<li><b>RGB في الميموري:</b> buffers منفصلة لـ R, G, B. في نظام 24-bit كل لون 1 byte → 2²⁴ ≈ 16M لون.</li>
+<li><b>Opacity (alpha A):</b> A=0.0 شفاف تمامًا … A=1.0 معتم تمامًا. Transparency و opacity متكاملين.</li></ul></div></details>
+<div class="card qzc" id="qz2"></div>
+</section>
+
+<section id="c3">
+<h2>المحاضرة 3 — Points &amp; Lines (Bresenham)</h2>
+<p class="sub">أهم محاضرة في الحسابات. ذاكره بالترتيب.</p>
+<details open><summary>3.1 رسم النقطة والخط على الأجهزة</summary><div>
+<ul><li><b>Point plotting:</b> تحويل إحداثي من البرنامج لعملية على الجهاز (CRT: الـ beam بيضوي الـ phosphor في المكان ده).</li>
+<li><b>Line drawing:</b> نحسب نقاط وسيطة بين نقطتين ونملاها.</li>
+<li>الأجهزة <b>Analog</b> (pen plotter, random-scan) بترسم خط smooth من نقطة لنقطة بجهود deflection متغيرة خطيًا.</li>
+<li>الأجهزة <b>Digital/raster</b> بترسم نقاط منفصلة بين الطرفين، ونحسبها من معادلة الخط. اللون بيتحمّل في الـ frame buffer عند إحداثيات الـ pixel، وبعدها الـ video controller بيقرأ منه ويعرض.</li></ul></div></details>
+
+<details><summary>3.2 الـ Jaggies والـ Rounding</summary><div>
+<ul><li>إحداثيات الشاشة <b>integers</b>، فالنقاط المحسوبة بتتقرب. مثال: <code>(10.48, 20.51) → (10, 21)</code>.</li>
+<li>الـ rounding بيعمل شكل السلم <b>stair-step (jaggies)</b>.</li>
+<li>بتبان أكتر في الـ <b>low resolution</b>. بتتحسن بـ high resolution، أو بتقنيات تعديل شدة البيكسلات (anti-aliasing).</li>
+<li>الـ scan lines بتتعد من <b>0 من تحت</b> الشاشة، والـ columns من 0 من الشمال لليمين.</li></ul></div></details>
+
+<details><summary>3.3 معادلة الخط (Slope-Intercept)</summary><div>
+<div class="key"><code>y = m·x + b</code> &nbsp; <code>m = (y2−y1)/(x2−x1) = Δy/Δx</code> &nbsp; <code>b = y1 − m·x1</code></div>
+<p><b>مثال:</b> الخط من (2,3) لـ (10,7): m = 4/8 = 0.5 ، b = 3 − 0.5×2 = 2 → <code>y = 0.5x + 2</code>.</p>
+<p>الطريقة المباشرة بتحتاج ضرب وتقريب في كل خطوة، علشان كده بنستخدم Bresenham.</p></div></details>
+
+<details><summary>3.4 فكرة Bresenham (إزاي بتشتغل)</summary><div>
+<ul><li>خوارزمية <b>دقيقة وسريعة</b>، بتحوّل الخط (scan conversion) بحسابات <b>integer incremental</b> بس.</li>
+<li>بتتكيّف مع الدوائر والمنحنيات.</li>
+<li>بناخد عينات كل <b>خطوة x واحدة</b>، وفي كل خطوة نقرر أي بيكسلين أقرب للخط: <code>(x_k+1, y_k)</code> أو <code>(x_k+1, y_k+1)</code>.</li>
+<li>بنقارن المسافتين <b>d1</b> (للبيكسل الأسفل) و <b>d2</b> (للأعلى). الفرق بيتحول لـ <b>decision parameter p_k</b> بالـ integers بس.</li>
+<li>نبدأ بالحالة 0 &lt; m &lt; 1 (الشرح الأساسي).</li></ul></div></details>
+
+<details><summary>3.5 الخوارزمية خطوة بخطوة (احفظها)</summary><div>
+<ol><li>احسب <code>Δx = x2 − x1</code> و <code>Δy = y2 − y1</code>.</li>
+<li>ارسم النقطة الأولى (x1, y1).</li>
+<li><code>p0 = 2Δy − Δx</code></li>
+<li>كرر Δx مرة، لكل k:<ul>
+<li>لو <code>p_k &lt; 0</code>: البيكسل التالي <code>(x_k+1, y_k)</code> و <code>p_k+1 = p_k + 2Δy</code></li>
+<li>لو <code>p_k ≥ 0</code>: البيكسل التالي <code>(x_k+1, y_k+1)</code> و <code>p_k+1 = p_k + 2Δy − 2Δx</code></li></ul></li>
+<li>قف لما x = x2.</li></ol>
+<div class="key"><b>اكتب الثوابت قبل الجدول:</b> Δx, Δy, p0, 2Δy, 2Δy−2Δx.</div>
+<p><b>حالات خاصة:</b> لو الميل &gt; 1 بدّل دور x و y (<code>p0 = 2Δx − Δy</code>). لو الميل سالب قلّل y بدل ما تزودها.</p></div></details>
+
+<details><summary>3.6 مثال المحاضرة: (20,10) → (30,18)</summary><div>
+<p>Δx=10, Δy=8 → <code>p0 = 16 − 10 = 6</code>، <code>2Δy = 16</code>، <code>2Δy−2Δx = −4</code>. نبدأ من (20,10).</p>
+<div class="wrap"><table><tr><th>k</th><th>p_k</th><th>القرار</th><th>البيكسل</th><th>p_k+1</th></tr>
+<tr><td>0</td><td>6</td><td>≥0 → y+1</td><td>(21,11)</td><td>2</td></tr><tr><td>1</td><td>2</td><td>≥0</td><td>(22,12)</td><td>−2</td></tr>
+<tr><td>2</td><td>−2</td><td>&lt;0 → y ثابت</td><td>(23,12)</td><td>14</td></tr><tr><td>3</td><td>14</td><td>≥0</td><td>(24,13)</td><td>10</td></tr>
+<tr><td>4</td><td>10</td><td>≥0</td><td>(25,14)</td><td>6</td></tr><tr><td>5</td><td>6</td><td>≥0</td><td>(26,15)</td><td>2</td></tr>
+<tr><td>6</td><td>2</td><td>≥0</td><td>(27,16)</td><td>−2</td></tr><tr><td>7</td><td>−2</td><td>&lt;0</td><td>(28,16)</td><td>14</td></tr>
+<tr><td>8</td><td>14</td><td>≥0</td><td>(29,17)</td><td>10</td></tr><tr><td>9</td><td>10</td><td>≥0</td><td>(30,18)</td><td>stop</td></tr></table></div>
+<p class="tip">عدد الخطوات = Δx = 10 (بعد نقطة البداية). سؤال Apr 2025: عدد البيكسلات المحسوبة = <b>10</b>.</p></div></details>
+
+<details><summary>3.7 تمرين: (2,3) → (10,7)</summary><div>
+<p>Δx=8, Δy=4 → <code>p0=0</code>، <code>2Δy=8</code>، <code>2Δy−2Δx=−8</code>.</p>
+<div class="wrap"><table><tr><th>k</th><th>p_k</th><th>البيكسل</th><th>p_k+1</th></tr><tr><td>0</td><td>0</td><td>(3,4)</td><td>−8</td></tr><tr><td>1</td><td>−8</td><td>(4,4)</td><td>0</td></tr><tr><td>2</td><td>0</td><td>(5,5)</td><td>−8</td></tr><tr><td>3</td><td>−8</td><td>(6,5)</td><td>0</td></tr><tr><td>4</td><td>0</td><td>(7,6)</td><td>−8</td></tr><tr><td>5</td><td>−8</td><td>(8,6)</td><td>0</td></tr><tr><td>6</td><td>0</td><td>(9,7)</td><td>−8</td></tr><tr><td>7</td><td>−8</td><td>(10,7)</td><td>stop</td></tr></table></div></div></details>
+
+<details><summary>3.8 ميل أكبر من 1: (2,3) → (5,8)</summary><div>
+<p>Δy=5 &gt; Δx=3، فبنمشي خطوة في y وبنقرر على x. <code>p0 = 2Δx − Δy = 1</code>، <code>2Δx = 6</code>، <code>2Δx−2Δy = −4</code>.</p>
+<div class="wrap"><table><tr><th>k</th><th>p_k</th><th>القرار</th><th>البيكسل</th><th>p_k+1</th></tr><tr><td>0</td><td>1</td><td>≥0 → x+1</td><td>(3,4)</td><td>−3</td></tr><tr><td>1</td><td>−3</td><td>&lt;0 → x ثابت</td><td>(3,5)</td><td>3</td></tr><tr><td>2</td><td>3</td><td>≥0</td><td>(4,6)</td><td>−1</td></tr><tr><td>3</td><td>−1</td><td>&lt;0</td><td>(4,7)</td><td>5</td></tr><tr><td>4</td><td>5</td><td>≥0</td><td>(5,8)</td><td>stop</td></tr></table></div>
+<p>الترتيب: (2,3) (3,4) <b>(3,5)</b> (4,6) (4,7) (5,8). التالتة = (3,5).</p></div></details>
+<div class="card qzc" id="qz3"></div>
+</section>
+
+<section id="c4">
+<h2>المحاضرة 4 — Circle (Midpoint / Bresenham)</h2>
+<p class="sub">ده اللي جه مسألة في الميد (6 درجات). ذاكره كويس.</p>
+<details open><summary>4.1 تعريف الدايرة ومعادلاتها</summary><div>
+<ul><li>الدايرة = مجموعة النقاط على بعد ثابت <b>r</b> من المركز (xc, yc).</li>
+<li><b>Cartesian (1):</b> <code>(x−xc)² + (y−yc)² = r²</code></li>
+<li><b>Parametric (2):</b> <code>x = xc + r·cosθ</code> ، <code>y = yc + r·sinθ</code></li>
+<li>معظم حزم الجرافيكس فيها إجراء لرسم دوائر أو أقواس.</li></ul></div></details>
+
+<details><summary>4.2 ليه الطرق المباشرة مش كويسة؟</summary><div>
+<ul><li>الـ Cartesian فيها <b>ضرب وجذر تربيعي</b>. الـ parametric فيها <b>ضرب و trigonometry</b>. كتير حسابات في كل خطوة.</li>
+<li>المسافات بين البيكسلات <b>مش متساوية</b>. وتعديلها بتبديل x و y لما |الميل| &gt; 1 بيزود الحسابات أكتر.</li></ul>
+<div class="tip">سؤال متوقع: ليه الطريقة المباشرة سيئة وإزاي الـ symmetry بتساعد؟</div></div></details>
+
+<details><summary>4.3 الـ 8-way Symmetry</summary><div>
+<ul><li>الدايرة متماثلة حوالين محور x ومحور y والخط 45°.</li>
+<li>كل quadrant شبه التاني. الأقسام في الربع 3 و4 بنجيبها من 1 و2 بتماثل حوالين x. والتماثل بين الـ octants حوالين خط 45°.</li>
+<li>فنحسب <b>octant واحد بس (من x=0 لـ x=y)</b> ونعمل mirror لكل نقطة:</li></ul>
+<div class="key en"><code>(x,y) (y,x) (y,−x) (x,−y) (−x,−y) (−y,−x) (−y,x) (−x,y)</code></div>
+<p>يعني النقطة + <b>7 نقاط</b> تانية. بيقلل الحساب للـ 1/8.</p>
+<p><b>لو المركز مش (0,0):</b> احسب كأنه (0,0) وبعدين زوّد xc على كل x و yc على كل y.</p>
+</div></details>
+
+<details><summary>4.4 فكرة Bresenham/Midpoint للدايرة</summary><div>
+<ul><li>بنعمل decision parameters بنفس فكرة خط Bresenham علشان نلاقي أقرب بيكسل للمحيط في كل خطوة.</li>
+<li>معادلة الدايرة غير خطية فالمسافات محتاجة جذر. الـ Bresenham <b>بيقارن مربعات المسافات</b> فيتفادى الجذر.</li>
+<li>بنختبر النقطة الوسطى (midpoint) بين البيكسلين <code>(x_k+1, y_k)</code> و <code>(x_k+1, y_k−1)</code> إذا كانت جوه الدايرة أو بره.</li>
+<li>نبدأ من أعلى الدايرة <code>(0, r)</code> ونمشي <b>clockwise</b> في الـ octant: x بتزيد 1 كل خطوة، و y إما ثابتة أو بتنقص 1.</li></ul></div></details>
+
+<details><summary>4.5 الخوارزمية خطوة بخطوة (احفظها)</summary><div>
+<ol><li>ابدأ <code>(x0, y0) = (0, r)</code></li><li><code>p0 = 1 − r</code></li>
+<li>في كل خطوة k:<ul>
+<li>لو <code>p_k &lt; 0</code>: التالي <code>(x_k+1, y_k)</code> و <code>p_k+1 = p_k + 2x_k+1 + 1</code></li>
+<li>لو <code>p_k ≥ 0</code>: التالي <code>(x_k+1, y_k−1)</code> و <code>p_k+1 = p_k + 2x_k+1 + 1 − 2y_k+1</code></li></ul></li>
+<li>كرر لحد <b>x ≥ y</b></li><li>ارسم الـ 8 نقاط المتماثلة (وزوّد المركز لو لازم)</li></ol>
+<p>(x<sub>k+1</sub>, y<sub>k+1</sub>) = إحداثيات البيكسل الجديد. أعمدة الجدول الأخيرة في المحاضرة: <b>2x<sub>k+1</sub></b> و <b>2y<sub>k+1</sub></b>.</p></div></details>
+
+<details><summary>4.6 مثال المحاضرة: r = 10</summary><div>
+<p><code>p0 = 1 − 10 = −9</code> ، أول نقطة (0,10).</p>
+<div class="wrap"><table><tr><th>k</th><th>p_k</th><th>القرار</th><th>(x,y)</th><th>2x</th><th>2y</th><th>p_k+1</th></tr>
+<tr><td>0</td><td>−9</td><td>&lt;0</td><td>(1,10)</td><td>2</td><td>20</td><td>−9+2+1=−6</td></tr><tr><td>1</td><td>−6</td><td>&lt;0</td><td>(2,10)</td><td>4</td><td>20</td><td>−6+4+1=−1</td></tr>
+<tr><td>2</td><td>−1</td><td>&lt;0</td><td>(3,10)</td><td>6</td><td>20</td><td>−1+6+1=6</td></tr><tr><td>3</td><td>6</td><td>≥0</td><td>(4,9)</td><td>8</td><td>18</td><td>6+8+1−18=−3</td></tr>
+<tr><td>4</td><td>−3</td><td>&lt;0</td><td>(5,9)</td><td>10</td><td>18</td><td>−3+10+1=8</td></tr><tr><td>5</td><td>8</td><td>≥0</td><td>(6,8)</td><td>12</td><td>16</td><td>8+12+1−16=5</td></tr>
+<tr><td>6</td><td>5</td><td>≥0</td><td>(7,7)</td><td>14</td><td>14</td><td>stop (x=y)</td></tr></table></div>
+<p><b>الـ octant:</b> (0,10) (1,10) (2,10) (3,10) (4,9) (5,9) (6,8) (7,7). <b>مثال mirror:</b> (4,9) ← (9,4) (9,−4) (4,−9) (−4,−9) (−9,−4) (−9,4) (−4,9).</p></div></details>
+
+<details><summary>4.7 ميد 2026: r = 8</summary><div>
+<p><code>p0 = 1 − 8 = −7</code>، البداية (0,8).</p>
+<div class="wrap"><table><tr><th>k</th><th>p_k</th><th>القرار</th><th>(x,y)</th><th>p_k+1</th></tr>
+<tr><td>0</td><td>−7</td><td>&lt;0</td><td>(1,8)</td><td>−7+2+1=−4</td></tr><tr><td>1</td><td>−4</td><td>&lt;0</td><td>(2,8)</td><td>−4+4+1=1</td></tr>
+<tr><td>2</td><td>1</td><td>≥0</td><td>(3,7)</td><td>1+6+1−14=−6</td></tr><tr><td>3</td><td>−6</td><td>&lt;0</td><td>(4,7)</td><td>−6+8+1=3</td></tr>
+<tr><td>4</td><td>3</td><td>≥0</td><td>(5,6)</td><td>3+10+1−12=2</td></tr><tr><td>5</td><td>2</td><td>≥0</td><td>(6,5)</td><td>x&gt;y → stop</td></tr></table></div>
+<p>نقاط الـ octant: (0,8) (1,8) (2,8) (3,7) (4,7) (5,6). مع مركز (3,2) بنضيف (3,2): (0,8)→(3,10)، (1,8)→(4,10).</p></div></details>
+
+<details><summary>4.8 Apr 2025: r = 5</summary><div>
+<p><code>p0 = 1 − 5 = −4</code>، البداية (0,5).</p>
+<div class="wrap"><table><tr><th>k</th><th>p_k</th><th>القرار</th><th>(x,y)</th><th>p_k+1</th></tr>
+<tr><td>0</td><td>−4</td><td>&lt;0</td><td>(1,5)</td><td>−4+2+1=−1</td></tr><tr><td>1</td><td>−1</td><td>&lt;0</td><td>(2,5)</td><td>−1+4+1=4</td></tr>
+<tr><td>2</td><td>4</td><td>≥0</td><td>(3,4)</td><td>4+6+1−8=3</td></tr><tr><td>3</td><td>3</td><td>≥0</td><td>(4,3)</td><td>x&gt;y → stop</td></tr></table></div>
+<p>الـ octant: (0,5) (1,5) (2,5) (3,4). النقطة (4,3) هي mirror لـ (3,4) فهي من الـ octant التاني.</p></div></details>
+<div class="card qzc" id="qz4"></div>
+</section>
+
+<section id="s2">
+<h2>حل ميد 2026 بنفسك <span class="pill">15 درجة</span></h2>
+<div class="tbar" id="tbar"><div class="tl"><span id="tm">60:00</span><span id="tst" class="sub">جاهز. اضغط ابدأ أول ما تبدأ تحل.</span>
+<span><button class="btn" id="tgo">▶ ابدأ</button> <button class="btn g" id="trs">↺ من الأول</button> <button class="btn g" id="tsub">✔ سلّم وصحح</button></span></div><div class="prog"><div id="tfill"></div></div></div>
+<p>حل الأول وبعدين <b>تحقق</b> لكل سؤال، أو <b>سلّم وصحح</b> علشان تصحح الكل مرة واحدة. الحل النموذجي في آخر الصفحة.</p>
+<div class="card"><h3>Q1 — دايرة r = 8، مركزها (0,0) (6 درجات)</h3>
+<p class="en">Use the Midpoint Circle Algorithm: (1) pixel positions along the first-quadrant octant x = 0 to x = y. (2) Draw the pixels of the first octant.</p>
+<p class="en"><b>(1)</b> املا الجدول (البداية (0,8) و p0 = 1 − r):</p>
+<div class="wrap"><table id="q1t"></table></div>
+<button class="btn" id="q1c">تحقق من الجدول</button> <button class="btn g" id="q1s">اعرض الحل</button><div class="msg" id="q1m"></div>
+<p class="en"><b>(2)</b> ارسم: اضغط على الخانات اللي هتلونها.</p>
+<div class="pg" id="q1g"></div>
+<button class="btn" id="q1gc">تحقق من الرسم</button><div class="msg" id="q1gm"></div></div>
+<div class="card"><h3>Q2 — عرّف (4 درجات)</h3><div id="q2"></div></div>
+<div class="card"><h3>Q3 — اختار الإجابة الصحيحة (5 درجات)</h3><div class="score" id="e3s"></div><div id="e3"></div></div>
+<div class="msg" id="fin"></div>
+<details><summary>الحل النموذجي كامل (Q1 + Q2 + Q3)</summary><div>
+<h3>Q1</h3>
+<div class="wrap"><table><tr><th>k</th><th>p<sub>k</sub></th><th>(x<sub>k+1</sub>, y<sub>k+1</sub>)</th><th>2x<sub>k+1</sub></th><th>2y<sub>k+1</sub></th></tr>
+<tr><td>0</td><td>−7</td><td>(1,8)</td><td>2</td><td>16</td></tr><tr><td>1</td><td>−4</td><td>(2,8)</td><td>4</td><td>16</td></tr>
+<tr><td>2</td><td>1</td><td>(3,7)</td><td>6</td><td>14</td></tr><tr><td>3</td><td>−6</td><td>(4,7)</td><td>8</td><td>14</td></tr>
+<tr><td>4</td><td>3</td><td>(5,6)</td><td>10</td><td>12</td></tr><tr><td>5</td><td>2</td><td>(6,5)</td><td>12</td><td>10</td></tr></table></div>
+<p>الدكتور حط (6,5) كصف أخير (x&gt;y فبيوقف). نقاط الـ octant: <b>(0,8) (1,8) (2,8) (3,7) (4,7) (5,6)</b>.</p>
+<canvas id="cv8" width="360" height="300" aria-label="رسم الـ octant لـ r=8"></canvas>
+<h3>Q2</h3>
+<ul class="en"><li><b>Scan conversion:</b> converting geometric data described in vector form into a set of pixels.</li>
+<li><b>Geometric primitives:</b> the low-level objects (atomic entities) the system can display: points, line segments, polygons, pixels, text, curves and surfaces.</li>
+<li><b>Triangulation:</b> dividing a polygon into a set of triangles using its vertices.</li>
+<li><b>Standard position:</b> object axes parallel to the X and Y axes, in default position/orientation before any transformation.</li></ul>
+<h3>Q3</h3>
+<div class="wrap"><table><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th></tr>
+<tr><td>c</td><td>b</td><td>a</td><td>b</td><td>b</td><td>c</td><td>c</td><td>d</td></tr></table></div></div></details>
+</section>
+
+<section id="s3">
+<h2>حاسبات تفاعلية</h2>
+<p>جرّب أي أرقام وقارن بالجدول اللي في الورقة.</p>
+<div class="card"><h3>Bresenham Line</h3>
+<div class="row"><div><label>x1</label><input id="lx1" type="number" value="20"></div><div><label>y1</label><input id="ly1" type="number" value="10"></div><div><label>x2</label><input id="lx2" type="number" value="30"></div><div><label>y2</label><input id="ly2" type="number" value="18"></div><button class="btn" id="lgo">احسب</button></div>
+<div id="lout"></div><canvas id="lcv" width="420" height="300"></canvas></div>
+<div class="card"><h3>Midpoint Circle</h3>
+<div class="row"><div><label>r</label><input id="cr" type="number" value="8" min="1" max="30"></div><div><label>xc</label><input id="cxc" type="number" value="0"></div><div><label>yc</label><input id="cyc" type="number" value="0"></div><button class="btn" id="cgo">احسب</button><button class="btn g" id="cm">الدايرة الكاملة</button></div>
+<div id="cout"></div><canvas id="ccv" width="420" height="300"></canvas></div>
+</section>
+
+<section id="s5">
+<h2>كروت التعريفات <small style="color:var(--mut);font-weight:400">(اضغط للقلب)</small></h2>
+<div class="fcs" id="fcs"></div>
+</section>
+</main>
+<script>
+
+var T=[["الملخص قبل الامتحان","s0"],["محاضرة 1","c1"],["محاضرة 2","c2"],["محاضرة 3","c3"],["محاضرة 4","c4"],["ميد 2026","s2"],["حاسبات","s3"],["كروت","s5"]];
+var nav=document.getElementById("nav");
+T.forEach(function(t,i){var b=document.createElement("button");b.textContent=t[0];if(!i)b.className="on";b.onclick=function(){show(t[1],b)};nav.appendChild(b)});
+function show(id,b){document.querySelectorAll("section").forEach(function(s){s.classList.toggle("on",s.id===id)});nav.querySelectorAll("button").forEach(function(x){x.classList.toggle("on",x===b)});window.scrollTo(0,0)}
+document.getElementById("th").onclick=function(){var r=document.documentElement,d=getComputedStyle(r).getPropertyValue("--bg").trim()==="#0e1424";r.setAttribute("data-theme",d?"light":"dark");redraw()};
+function col(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim()}
+function grid(cv,xs,ys,pts,mx,my){var c=cv.getContext("2d");c.clearRect(0,0,cv.width,cv.height);
+ var minx=Math.min.apply(0,xs),maxx=Math.max.apply(0,xs),miny=Math.min.apply(0,ys),maxy=Math.max.apply(0,ys);
+ var nx=maxx-minx+3,ny=maxy-miny+3,s=Math.floor(Math.min(cv.width/nx,cv.height/ny));
+ var ox=(cv.width-s*nx)/2,oy=(cv.height-s*ny)/2;c.strokeStyle=col("--ln");c.fillStyle=col("--mut");c.font="10px sans-serif";c.textAlign="center";
+ for(var i=0;i<=nx;i++){c.beginPath();c.moveTo(ox+i*s,oy);c.lineTo(ox+i*s,oy+ny*s);c.stroke();if(i<nx&&s>13)c.fillText(minx-1+i,ox+i*s+s/2,oy+ny*s+10)}
+ for(var j=0;j<=ny;j++){c.beginPath();c.moveTo(ox,oy+j*s);c.lineTo(ox+nx*s,oy+j*s);c.stroke();if(j<ny&&s>13)c.fillText(maxy+1-j,ox-8,oy+j*s+s/2+3)}
+ pts.forEach(function(p){c.fillStyle=p[2]||col("--ac");c.fillRect(ox+(p[0]-minx+1)*s+1,oy+(maxy+1-p[1])*s+1,s-2,s-2)})}
+var last8=[[0,8],[1,8],[2,8],[3,7],[4,7],[5,6]];
+function lineRows(x1,y1,x2,y2){var dx=Math.abs(x2-x1),dy=Math.abs(y2-y1),sx=x2>x1?1:-1,sy=y2>y1?1:-1,st=dy>dx,a=st?dy:dx,b=st?dx:dy,p=2*b-a,x=x1,y=y1,r=[];
+ for(var k=0;k<a;k++){var up=p>=0;if(st){y+=sy;if(up)x+=sx}else{x+=sx;if(up)y+=sy}r.push([k,p,x,y]);p+=up?2*b-2*a:2*b}
+ return{r:r,dx:dx,dy:dy,p0:2*b-a,st:st}}
+function circ(R){var x=0,y=R,p=1-R,r=[],oct=[[0,R]];
+ while(x<y){var nx=x+1,ny=p<0?y:y-1,np=p<0?p+2*nx+1:p+2*nx+1-2*ny;r.push([r.length,p,nx,ny,2*nx,2*ny]);if(nx<=ny)oct.push([nx,ny]);x=nx;y=ny;p=np}
+ return{r:r,oct:oct}}
+function tbl(h,rows){return'<div class="wrap"><table><tr>'+h.map(function(x){return"<th>"+x+"</th>"}).join("")+"</tr>"+rows.map(function(r){return"<tr>"+r.map(function(x){return"<td>"+x+"</td>"}).join("")+"</tr>"}).join("")+"</table></div>"}
+function doLine(){var v=["lx1","ly1","lx2","ly2"].map(function(i){return+document.getElementById(i).value});var o=lineRows(v[0],v[1],v[2],v[3]);
+ document.getElementById("lout").innerHTML='<p class="en">Δx='+o.dx+', Δy='+o.dy+', p0='+o.p0+(o.st?" (m>1: x و y متبدلين)":"")+'</p>'+tbl(["k","p_k","pixel"],o.r.map(function(r){return[r[0],r[1],"("+r[2]+","+r[3]+")"]}));
+ var pts=[[v[0],v[1]]].concat(o.r.map(function(r){return[r[2],r[3]]})),xs=pts.map(function(p){return p[0]}),ys=pts.map(function(p){return p[1]});grid(document.getElementById("lcv"),xs,ys,pts)}
+var full=false;
+function doCirc(){var R=+document.getElementById("cr").value,xc=+document.getElementById("cxc").value,yc=+document.getElementById("cyc").value;if(R<1)return;var o=circ(R);
+ document.getElementById("cout").innerHTML='<p class="en">p0 = 1 − '+R+' = '+(1-R)+' • start (0,'+R+')</p>'+tbl(["k","p_k","(x,y)","2x","2y"],o.r.map(function(r){return[r[0],r[1],"("+r[2]+","+r[3]+")"+(r[2]>r[3]?" ← stop":""),r[4],r[5]]}))+'<p class="en"><b>Octant:</b> '+o.oct.map(function(p){return"("+(p[0]+xc)+","+(p[1]+yc)+")"}).join(" ")+'</p>';
+ var pts=[];o.oct.forEach(function(p){var x=p[0],y=p[1];var m=full?[[x,y],[y,x],[y,-x],[x,-y],[-x,-y],[-y,-x],[-y,x],[-x,y]]:[[x,y]];m.forEach(function(q){pts.push([q[0]+xc,q[1]+yc])})});
+ var xs=pts.map(function(p){return p[0]}),ys=pts.map(function(p){return p[1]});grid(document.getElementById("ccv"),xs,ys,pts)}
+document.getElementById("lgo").onclick=doLine;document.getElementById("cgo").onclick=doCirc;
+document.getElementById("cm").onclick=function(){full=!full;this.textContent=full?"octant بس":"الدايرة الكاملة";doCirc()};
+function redraw(){grid(document.getElementById("cv8"),[0,5],[6,8],last8);doLine();doCirc()}
+var M=[[2,"Mid 2026 – The simplest geometric primitive is ____",["Circle","Line","Point","Polygon"],2,"النقطة هي أبسط primitive."],
+[2,"Mid 2026 – Which color model is used for printing?",["RGB","CMYK","HSV","HSL"],1,"CMYK subtractive للطباعة."],
+[3,"Mid 2026 – In Bresenham's line algorithm, the initial decision parameter is ____",["2Δy − Δx","Δy − 2Δx","Δx − Δy","2Δx − Δy"],0,"p0 = 2Δy − Δx."],
+[2,"Mid 2026 – Sphere approximation with quadrilaterals means using many small ____ patches",["triangles","quads","circles","lines"],1,"quadrilaterals = quads."],
+[3,"Mid 2026 – If p_k < 0, what is p_k+1?",["p_k + 2Δx","p_k + 2Δy","p_k + Δy","p_k + Δx"],1,"p<0 → p + 2Δy."],
+[2,"Mid 2026 – Characters are rectangles of bits called ____",["Pixels","Vectors","Bit blocks","Polygons"],2,"Raster text = bit blocks."],
+[3,"Mid 2026 – If p_k ≥ 0, the next point is?",["(x_k+1, y_k)","(x_k, y_k+1)","(x_k+1, y_k+1)","(x_k, y_k)"],2,"p≥0 → x و y الاتنين بيزيدوا."],
+[3,"Mid 2026 – The main advantage of Bresenham's algorithm is ____",["Floating-point","Rounding errors","Addition","Integer calculations"],3,"Integer only."]];
+var X=[
+[1,"Which is NOT a major application area of computer graphics?",["Display of information","Design","Compilers","Simulation and animation"],2,"الأربعة: Display, Design, Simulation & animation, User interfaces."],
+[1,"A frame buffer uses 8 bits per pixel. How many colors?",["8","64","256","65,536"],2,"2^8 = 256."],
+[1,"Which is one of the six major elements of a graphics system?",["Frame buffer","Compiler","Scanner","Printer driver"],0,"Input devices, CPU, GPU, Memory, Frame buffer, Output devices."],
+[1,"The pinhole camera produces an image that is…",["inverted","magnified","only colored","upright"],0,"الصورة مقلوبة."],
+[1,"Cones in the human eye work in ____ light and give ____",["low – gray vision","high – color vision","low – color vision","high – gray vision"],1,"Cones = ضوء عالي + ألوان. Rods = ضوء قليل."],
+[1,"Visible light wavelengths are about",["350–780 nm","100–200 nm","900–1200 nm","1–10 mm"],0,"350–780 nm."],
+[1,"A design problem with many possible solutions is",["overdetermined","underdetermined","invalid","simple"],1,"Underdetermined = حلول كتير. Overdetermined = مفيش حل."],
+[1,"The depth of the frame buffer is…",["number of pixels","bits per pixel","screen size","refresh rate"],1,"Depth = bits per pixel."],
+[2,"Primitive functions define…",["How objects look","Low-level objects like points and lines","Window handling","Camera position"],1,"Primitives = the what."],
+[2,"Attribute functions determine…",["What is displayed","How objects are displayed","Input devices","Errors"],1,"Attributes = the how."],
+[2,"Why are triangles the preferred polygon primitive?",["Always simple, flat and convex","They are the biggest","They are non-planar","They need no vertices"],0,"فسريعة في الـ rendering."],
+[2,"RGB is ____ and CMY is ____",["subtractive; additive","additive; subtractive","both additive","both subtractive"],1,"RGB additive، CMY subtractive."],
+[2,"Bits per RGB component in a 24-bit system?",["4","8","16","24"],1,"24 ÷ 3 = 8."],
+[2,"Alpha A = 0.0 means…",["Fully opaque","Fully transparent","Red only","Half transparent"],1,"0 شفاف، 1 معتم."],
+[2,"Control functions are responsible for…",["Colors","Startup, window system, error handling","Rotation","Pixel depth"],1,"Control group."],
+[3,"Jaggies are most visible at ____ resolution",["high","low","medium only","no"],1,"بيبانوا أكتر في low resolution."],
+[3,"The y-intercept b is calculated by…",["y1 − m·x1","y1 + m·x1","m / x1","x1 − y1"],0,"b = y1 − m·x1."],
+[3,"Line (2,3)→(5,8) with Bresenham: the third plotted point?",["(3,5)","(3,4)","(4,6)","(4,7)"],0,"m>1: (2,3) (3,4) (3,5) (4,6) (4,7) (5,8)."],
+[3,"Scan lines are numbered…",["from 0 at the bottom","from 1 at the top","from 0 at the top","from −1 at the center"],0,"من 0 من تحت، والـ columns من الشمال."],
+[3,"Pixel position for the computed point (10.48, 20.51)?",["(10,21)","(11,21)","(10,20)","(11,20)"],0,"Rounding → (10,21)."],
+[3,"At each step Bresenham chooses between…",["(x+1,y) and (x+1,y+1)","(x,y) and (x−1,y)","(x+1,y) and (x−1,y)","random pixels"],0,"أقرب بيكسلين للخط."],
+[3,"Line (20,10)→(30,18): p0 = ?",["6","−2","16","10"],0,"2Δy − Δx = 16 − 10 = 6."],
+[4,"In a circle, symmetry maps the point (x,y) to how many OTHER points?",["3","4","7","8"],2,"8-way: النقطة + 7."],
+[4,"Bresenham circle: p0 = ?",["2Δy − Δx","1 − r","r − 1","2r"],1,"p0 = 1 − r."],
+[4,"The circle algorithm stops when…",["x = 0","y = 0","x ≥ y","p < 0"],2,"x ≥ y."],
+[4,"How much of the circle is computed directly?",["1/2","1/4","1/8","All"],2,"octant واحد."],
+[4,"Circle r = 5: how many pixels in the first octant?",["3","4","5","6"],1,"(0,5) (1,5) (2,5) (3,4)."],
+[4,"Circle r = 10: p0 = ?",["−9","−10","9","11"],0,"1 − 10 = −9."],
+[4,"Why is the direct circle equation a poor method?",["Square roots/trig and uneven spacing","Too few points","It needs integers only","It is exact"],0,"جذور وtrig ومسافات مش متساوية."],
+[4,"If the circle center is not the origin you…",["compute at (0,0) then add xc, yc","cannot use symmetry","swap x and y only","change p0 to 2r"],0,"أضف xc على x و yc على y."]];
+var QB=M.concat(X);
+function mk(box,list,sc){var st={d:0,r:0},h="";
+ list.forEach(function(q,i){h+='<div class="q"><b class="t">'+(i+1)+". "+q[1]+'</b><div class="opts">'+q[2].map(function(o,j){return'<button class="opt" data-i="'+i+'" data-j="'+j+'">'+o+"</button>"}).join("")+'</div><div class="why">'+q[4]+"</div></div>"});
+ box.innerHTML=h;function up(){sc.textContent=st.r+" / "+list.length+" (جاوبت "+st.d+")"}up();
+ box.onclick=function(e){var b=e.target.closest(".opt");if(!b)return;var q=b.closest(".q");if(q.classList.contains("done"))return;q.classList.add("done");var i=+b.dataset.i,j=+b.dataset.j;st.d++;q.querySelectorAll(".opt")[list[i][3]].classList.add("ok");if(j===list[i][3])st.r++;else b.classList.add("no");up()}}
+/* exam */
+var E1=[[-7,1,8],[-4,2,8],[1,3,7],[-6,4,7],[3,5,6],[2,6,5]],t1=document.getElementById("q1t"),th="<tr><th>k</th><th>p_k</th><th>x_k+1</th><th>y_k+1</th></tr>";
+E1.forEach(function(r,k){th+="<tr><td>"+k+'</td><td><input type="number" data-k="'+k+'" data-c="0"></td><td><input type="number" data-k="'+k+'" data-c="1"></td><td><input type="number" data-k="'+k+'" data-c="2"></td></tr>'});t1.innerHTML=th;
+document.getElementById("q1c").onclick=function(){var ok=0,all=0;t1.querySelectorAll("input").forEach(function(i){var v=E1[+i.dataset.k][+i.dataset.c];all++;var g=i.value!==""&&+i.value===v;if(g)ok++;i.className=g?"ok":"no"});document.getElementById("q1m").textContent=ok+" / "+all+(ok===all?" ✔ ممتاز":" — الأحمر غلط، راجع القوانين (p0 = 1−r)")};
+document.getElementById("q1s").onclick=function(){t1.querySelectorAll("input").forEach(function(i){i.value=E1[+i.dataset.k][+i.dataset.c];i.className="ok"})};
+var pg=document.getElementById("q1g"),ph="";for(var y=8;y>=3;y--){ph+="<span>"+y+"</span>";for(var x=0;x<7;x++)ph+='<button data-x="'+x+'" data-y="'+y+'" aria-label="('+x+","+y+')"></button>'}ph+="<span></span>";for(x=0;x<7;x++)ph+="<span>"+x+"</span>";pg.innerHTML=ph;
+pg.onclick=function(e){var b=e.target.closest("button");if(b){b.classList.toggle("on");b.classList.remove("hit","miss")}};
+document.getElementById("q1gc").onclick=function(){var ex=last8.map(function(p){return p[0]+","+p[1]}),good=0,bad=0,on=[];pg.querySelectorAll("button").forEach(function(b){var k=b.dataset.x+","+b.dataset.y,w=ex.indexOf(k)>-1,o=b.classList.contains("on");b.classList.remove("hit","miss");if(o&&w){good++;b.classList.add("hit")}else if(o){bad++;b.classList.add("miss")}else if(w){b.classList.add("miss")}});document.getElementById("q1gm").textContent="صح: "+good+" من "+ex.length+(bad?" • زيادة غلط: "+bad:"")+" (الأخضر صح، الأحمر غلط أو ناقص)"};
+var D=[["1. Scan conversion","Converting geometric data described in vector form into a set of pixels."],["2. Geometric primitives","The low-level (atomic) objects the system can display: points, line segments, polygons, pixels, text, curves and surfaces."],["3. Triangulation","Dividing a polygon into a set of triangles using its vertices."],["4. Standard position","Object axes parallel to the X and Y axes, in default position/orientation before any transformation (translation, rotation, scaling)."]],dh="";
+D.forEach(function(d,i){dh+='<p class="en"><b>'+d[0]+'</b></p><textarea></textarea><button class="btn g" data-a="'+i+'">اعرض الإجابة</button><div class="ans en" id="a'+i+'">'+d[1]+"</div>"});
+document.getElementById("q2").innerHTML=dh;document.getElementById("q2").onclick=function(e){var b=e.target.closest("[data-a]");if(b)document.getElementById("a"+b.dataset.a).classList.toggle("show")};
+mk(document.getElementById("e3"),M,document.getElementById("e3s"));
+
+var TT=3600,left=TT,iv=null,$=function(i){return document.getElementById(i)};
+function rt(){var m=Math.floor(left/60),s=left%60;$("tm").textContent=(m<10?"0":"")+m+":"+(s<10?"0":"")+s;$("tfill").style.width=(left/TT*100)+"%";$("tbar").className="tbar"+(left<=300?" danger":left<=600?" warn":"")}
+function stopT(){if(iv){clearInterval(iv);iv=null}}
+$("tgo").onclick=function(){if(iv){stopT();this.textContent="▶ كمّل";$("tst").textContent="الوقت واقف مؤقتًا."}else{if(left<=0)return;iv=setInterval(function(){left--;rt();if(left===600)$("tst").textContent="باقي 10 دقايق، ركّز!";if(left===300)$("tst").textContent="باقي 5 دقايق!";if(left<=0){stopT();$("tst").textContent="الوقت خلص. اضغط سلّم وصحح.";$("tgo").textContent="▶ ابدأ"}},1000);this.textContent="⏸ إيقاف";$("tst").textContent="الوقت شغال. بالتوفيق!"}};
+$("trs").onclick=function(){stopT();left=TT;rt();$("tgo").textContent="▶ ابدأ";$("tst").textContent="جاهز. اضغط ابدأ أول ما تبدأ تحل.";$("fin").textContent=""};
+$("tsub").onclick=function(){stopT();var used=TT-left;$("tgo").textContent="▶ ابدأ";$("q1c").click();$("q1gc").click();var d=document.querySelectorAll("#e3 .q.done").length,w=document.querySelectorAll("#e3 .opt.no").length;
+ $("fin").textContent="اتصحح: اختيارات "+(d-w)+" / "+M.length+(d<M.length?" (فاضل "+(M.length-d)+" بدون إجابة)":"")+" • الوقت المستخدم "+Math.floor(used/60)+" دقيقة. راجع الجدول والرسم فوق، وقارن تعريفاتك بالنموذجية.";$("tst").textContent="تم التسليم.";$("fin").scrollIntoView({behavior:"smooth",block:"center"})};
+function qz(id,list,title){var el=$(id);el.innerHTML="<h3>"+title+'</h3><div class="score"></div> <button class="btn g">إعادة</button><div class="qb"></div>';var sc=el.querySelector(".score"),qb=el.querySelector(".qb");function go(){mk(qb,list,sc)}el.querySelector("button").onclick=go;go()}
+var sel=[];[1,2,3,4].forEach(function(c){var l=QB.filter(function(q){return q[0]===c});qz("qz"+c,l,"اختبر نفسك على محاضرة "+c+" ("+l.length+" سؤال)");sel.push(l[1],l[4])});
+qz("qz0",sel,"كويز سريع على المحاضرات (8 أسئلة)");
+var F=[["Scan conversion","Converting geometric data in vector form into a set of pixels."],["Geometric primitives","Low-level atomic objects the system can display: points, lines, polygons, pixels, text, curves, surfaces."],["Triangulation","Dividing a polygon into triangles using its vertices."],["Standard position","Axes parallel to X and Y, default position/orientation before any transformation."],["Primitives vs Attributes","Primitives = what is displayed. Attributes = how it is displayed (color, pattern, font)."],["Jaggies","Stair-step look of raster lines caused by rounding to integer pixels; worse at low resolution."],["Frame buffer","Memory holding the pixel values of the image. Depth = bits per pixel."],["Raster text vs Stroke text","Raster: bit blocks of 0/1. Stroke: line segments/curves outlining the character."],["Additive vs Subtractive","RGB adds light (all = white). CMY absorbs light (all = black)."],["Why Bresenham?","Only integer add/subtract; no multiply, divide, sqrt, trig or rounding."],["Circle symmetry","8-way: compute one octant (x=0 to x=y) and mirror to 7 others."],["Control functions","Communicate with the window system, initialize programs, handle errors."],["Alpha","0.0 = fully transparent, 1.0 = fully opaque."],["Color solid","3D representation of a color model (RGB cube)."]];
+var fh="";F.forEach(function(f,i){fh+='<div class="fc" tabindex="0" role="button" data-i="'+i+'">'+f[0]+"</div>"});
+var fcs=document.getElementById("fcs");fcs.innerHTML=fh;
+function flip(e){var c=e.target.closest(".fc");if(!c)return;if(e.type==="keydown"&&e.key!=="Enter"&&e.key!==" ")return;e.preventDefault();var i=+c.dataset.i,f=c.classList.toggle("flip");c.textContent=f?F[i][1]:F[i][0]}
+fcs.onclick=flip;fcs.onkeydown=flip;
+redraw();
+</script></body></html>
